@@ -16,9 +16,21 @@ function getScopes(nxJson: any) {
   return Array.from(new Set(allScopes));
 }
 
+function replaceScopes(content: string, scopes: string[]): string {
+  const joinScopes = scopes.map((s) => `'${s}'`).join(' | ');
+  const PATTERN = /interface Schema \{\n.*\n.*\n\}/gm;
+  return content.replace(
+    PATTERN,
+    `interface Schema {
+  name: string;
+  directory: ${joinScopes};
+}`
+  );
+}
+
 export default async function (tree: Tree) {
   const scopes = getScopes(readJson(tree, 'nx.json'));
-   await updateJson(tree, 'tools/generators/util-lib/schema.json', (schemaJson) => {
+  updateJson(tree, 'tools/generators/util-lib/schema.json', (schemaJson) => {
     
     schemaJson.properties.directory['x-prompt'].items = scopes.map((scope) => ({
       value: scope,
@@ -27,5 +39,9 @@ export default async function (tree: Tree) {
 
     return schemaJson;
   });
+  const indexFile = tree.read('tools/generators/util-lib/index.ts', 'utf-8');
+  const replacedContent = replaceScopes(indexFile, scopes);
+  tree.write('tools/generators/util-lib/index.ts', replacedContent);
+
   await formatFiles(tree); // this fix eslint errors after modifying the jsons
 }
