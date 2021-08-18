@@ -25,7 +25,11 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "postinstall": "husky install",
-    "pre-commit": "npm run nx workspace-generator update-scope-schema"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run nx workspace-generator update-scope-schema"
+    }
   },
   "private": true,
   "dependencies": {
