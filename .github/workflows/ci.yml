@@ -30,4 +30,4 @@ jobs:
     steps: # what steps it will perform
       - uses: actions/checkout@v1 # checkout whatever branch the PR is using
       - uses: bahmutov/npm-install@v1 # trigger an `npm install`
-      - run: npm run nx affected -- --target=e2e --base=origin/master --parallel # test the "store" project
+      - run: npm run nx affected -- --target=e2e --base=origin/master # test the "store" project
