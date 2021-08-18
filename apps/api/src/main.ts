@@ -5,7 +5,7 @@
 
  import * as express from 'express';
  import { getAllGames, getGame } from './app/games.repository';
- 
+
  const app = express();
  
  app.get('/api/games', (req, res) => {
