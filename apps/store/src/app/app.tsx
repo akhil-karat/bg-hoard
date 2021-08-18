@@ -19,6 +19,9 @@ import { Game } from '@bg-hoard/util-interface';
 
 const title = 'Board Game Hoard';
 
+/**
+ * App component
+ */
 export const App = () => {
   const [state, setState] = useState<{
     data: Game[];
